@@ -124,10 +124,11 @@ class HomeController extends Controller
                 'instagram_feed' => Profile::where('username', 'stagepassav')->first()->feed(32),
             ];
 
-            $instagram = \InstagramScraper\Instagram::withCredentials(new \GuzzleHttp\Client(), $_ENV['INSTAGRAM_USERNAME'], $_ENV['INSTAGRAM_PASSWORD'], new Psr16Adapter('Files'));
+            $instagram = \InstagramScraper\Instagram::withCredentials(new \GuzzleHttp\Client(), $_ENV['INSTAGRAM_USERNAME'], $_ENV['INSTAGRAM_PASSWORD'] , new Psr16Adapter('Files'));
+            $instagram->setUserAgent('User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0');
+            $account = $instagram->getAccount('accessories.co.ke');
             $instagram->login(); // will use cached session if you want to force login $instagram->login(true)
             $instagram->saveSession();  //DO NOT forget this in order to save the session, otherwise have no sense
-            $account = $instagram->getAccount('accessories.co.ke');
             $accountMedias = $account->getMedias();
             foreach ($accountMedias as $key  => $accountMedia) {
                 $images[$key] = str_replace("&amp;","&", $accountMedia->getimageHighResolutionUrl());
@@ -554,9 +555,10 @@ class HomeController extends Controller
               ];
 
             $instagram = \InstagramScraper\Instagram::withCredentials(new \GuzzleHttp\Client(), $_ENV['INSTAGRAM_USERNAME'], $_ENV['INSTAGRAM_PASSWORD'] , new Psr16Adapter('Files'));
-            $instagram->login(true); // will use cached session if you want to force login $instagram->login(true)
-            $instagram->saveSession();  //DO NOT forget this in order to save the session, otherwise have no sense
+            $instagram->setUserAgent('User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0');
             $account = $instagram->getAccount('accessories.co.ke');
+            $instagram->login(); // will use cached session if you want to force login $instagram->login(true)
+            $instagram->saveSession();  //DO NOT forget this in order to save the session, otherwise have no sense
             $accountMedias = $account->getMedias();
             foreach ($accountMedias as $key  => $accountMedia) {
                 $images[$key] = str_replace("&amp;","&", $accountMedia->getimageHighResolutionUrl());
