@@ -554,7 +554,7 @@ class HomeController extends Controller
               ];
 
             $instagram = \InstagramScraper\Instagram::withCredentials(new \GuzzleHttp\Client(), $_ENV['INSTAGRAM_USERNAME'], $_ENV['INSTAGRAM_PASSWORD'] , new Psr16Adapter('Files'));
-            $instagram->login(); // will use cached session if you want to force login $instagram->login(true)
+            $instagram->login(true); // will use cached session if you want to force login $instagram->login(true)
             $instagram->saveSession();  //DO NOT forget this in order to save the session, otherwise have no sense
             $account = $instagram->getAccount('accessories.co.ke');
             $accountMedias = $account->getMedias();
